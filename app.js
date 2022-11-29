@@ -34,3 +34,18 @@ app.get("/articles", function(req, res){
     }
   })
 })
+
+app.post("/articles", function(req, res){
+  //create a new article document
+  const newArticle = new Article({
+    title: req.body.title,
+    content: req.body.content
+  });
+  newArticle.save(function(err){
+    if (!err) {
+      res.send("post succeed");
+    } else {
+      res.send(err);
+    }
+  })
+})
