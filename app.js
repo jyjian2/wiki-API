@@ -95,4 +95,28 @@ app.route("/articles/:articleTitle").get(function(req, res){
   //     }
   //   }
   // );
+})
+.patch(function(req, res){
+  Article.findOneAndUpdate(
+    {title: req.params.articleTitle},
+    {$set: req.body},
+    function(err) {
+      if (!err) {
+        res.send("Succeed");
+      } else {
+        res.send(err);
+      }
+    }
+  )
+}).delete(function(req, res){
+  Article.deleteOne(
+    {title: req.params.articleTitle},
+    function(err) {
+      if (!err) {
+        res.send("Sucessfully delete");
+      } else {
+        res.send(err);
+      }
+    }
+  )
 });
