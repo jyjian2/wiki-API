@@ -55,3 +55,44 @@ app.route("/articles").get(function(req, res){
     }
   })
 });
+
+// targeting specific articles
+app.route("/articles/:articleTitle").get(function(req, res){
+  Article.findOne({title: req.params.articleTitle}, function(err, foundArticle){
+    if (!err) {
+      res.send(foundArticle);
+    } else {
+      console.log(err);
+    }
+  })
+}).put( (req, res) => {
+  console.log(req.body);
+  Article.findOne({title: req.params.articleTitle}, function(err, foundArticle){
+    if (!err) {
+      foundArticle.title = req.body.title;
+      foundArticle.content = req.body.content;
+      foundArticle.save(function(err){
+        if (!err) {
+          res.send("Succeed");
+        } else {
+          res.send(err);
+        }
+      });
+    } else {
+      console.log(err);
+    }
+  })
+  // Article.updateOne(
+  //   {title: req.params.articleTitle},                             // Condition
+  //   {$set: {title: req.body.title, content: req.body.content}},   // New data
+  //   {overwrite: true},                                            // Overwrite with new data
+  //   (err) => {
+  //     if(!err) {
+  //       res.send("Successfully updated article.");
+  //     } else {
+  //       console.log(article);
+  //       res.send(err);
+  //     }
+  //   }
+  // );
+});
